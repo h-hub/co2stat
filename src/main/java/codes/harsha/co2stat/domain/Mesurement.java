@@ -1,5 +1,6 @@
 package codes.harsha.co2stat.domain;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.ZonedDateTime;
@@ -11,9 +12,13 @@ public class Mesurement {
 
     private ZonedDateTime dateTime;
 
-    public Mesurement(double co2, ZonedDateTime dateTime) {
+    @DBRef
+    private Sensor sensor;
+
+    public Mesurement(double co2, ZonedDateTime dateTime, Sensor sensor) {
         this.co2 = co2;
         this.dateTime = dateTime;
+        this.sensor = sensor;
     }
 
     public double getCo2() {
