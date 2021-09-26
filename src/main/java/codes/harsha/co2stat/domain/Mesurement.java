@@ -8,14 +8,14 @@ import java.time.ZonedDateTime;
 @Document
 public class Mesurement {
 
-    private double co2;
+    private int co2;
 
     private ZonedDateTime dateTime;
 
     @DBRef
     private Sensor sensor;
 
-    public Mesurement(double co2, ZonedDateTime dateTime, Sensor sensor) {
+    public Mesurement(int co2, ZonedDateTime dateTime, Sensor sensor) {
         this.co2 = co2;
         this.dateTime = dateTime;
         this.sensor = sensor;

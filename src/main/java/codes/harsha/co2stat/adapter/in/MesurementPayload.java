@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 public class MesurementPayload {
 
     @NotNull
-    public Double co2;
+    public Integer co2;
 
     @NotNull
     @NotEmpty

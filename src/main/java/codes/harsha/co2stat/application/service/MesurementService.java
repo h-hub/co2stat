@@ -3,6 +3,7 @@ package codes.harsha.co2stat.application.service;
 import codes.harsha.co2stat.application.port.in.CollectMesurement;
 import codes.harsha.co2stat.application.port.out.MesurementCreatePort;
 import codes.harsha.co2stat.application.port.out.MesurementQueryPort;
+import codes.harsha.co2stat.application.port.out.SensorCreatePort;
 import codes.harsha.co2stat.application.port.out.SensorQueryPort;
 import codes.harsha.co2stat.domain.Mesurement;
 import codes.harsha.co2stat.domain.Sensor;
@@ -23,16 +24,20 @@ public class MesurementService implements CollectMesurement {
 
     private final MesurementQueryPort mesurementQueryPort;
 
+    private final SensorCreatePort sensorCreatePort;
+
     public MesurementService(SensorQueryPort sensorQueryPort,
                              MesurementCreatePort mesurementCreatePort,
-                             MesurementQueryPort mesurementQueryPort) {
+                             MesurementQueryPort mesurementQueryPort,
+                             SensorCreatePort sensorCreatePort) {
         this.sensorQueryPort = sensorQueryPort;
         this.mesurementCreatePort = mesurementCreatePort;
         this.mesurementQueryPort = mesurementQueryPort;
+        this.sensorCreatePort = sensorCreatePort;
     }
 
     @Override
-    public void collect(String sensorId, double co2Level, String dateTime) {
+    public void collect(String sensorId, int co2Level, String dateTime) {
 
         Assert.notNull(sensorId, "");
         Assert.notNull(dateTime, "");
@@ -43,7 +48,10 @@ public class MesurementService implements CollectMesurement {
         Mesurement mesurement = new Mesurement(co2Level, date, sensor);
         mesurementCreatePort.save(mesurement);
 
-        List<Mesurement> lastTwo = mesurementQueryPort.findLastMesurements(sensorId, 2);
+        List<Mesurement> lastThree = mesurementQueryPort.findLastMesurements(sensorId, 3);
+
+        sensor.setStatus(lastThree);
+        sensorCreatePort.save(sensor);
 
     }
 }
