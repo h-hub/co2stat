@@ -1,7 +1,9 @@
 package codes.harsha.co2stat.application.service;
 
 import codes.harsha.co2stat.application.port.in.CreateSensor;
+import codes.harsha.co2stat.application.port.in.GetSensorStatus;
 import codes.harsha.co2stat.application.port.out.SensorCreatePort;
+import codes.harsha.co2stat.application.port.out.SensorQueryPort;
 import codes.harsha.co2stat.domain.Sensor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,12 +11,15 @@ import org.springframework.util.Assert;
 
 @Service
 @Transactional
-public class SensorService implements CreateSensor {
+public class SensorService implements CreateSensor, GetSensorStatus {
 
     private final SensorCreatePort sensorCreatePort;
 
-    public SensorService(SensorCreatePort sensorCreatePort) {
+    private final SensorQueryPort sensorQueryPort;
+
+    public SensorService(SensorCreatePort sensorCreatePort, SensorQueryPort sensorQueryPort) {
         this.sensorCreatePort = sensorCreatePort;
+        this.sensorQueryPort = sensorQueryPort;
     }
 
     @Override
@@ -24,4 +29,12 @@ public class SensorService implements CreateSensor {
         sensorCreatePort.save(sensor);
     }
 
+    @Override
+    public String getStatus(String sensorId) {
+        Sensor.Status status = sensorQueryPort.find(sensorId).getStatus();
+        if(status==null){
+            return "";
+        }
+        return status.getStr();
+    }
 }

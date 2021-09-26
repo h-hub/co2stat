@@ -52,10 +52,20 @@ public class Sensor {
         }
     }
 
-    enum Status {
-        ALERT,
-        WARN,
-        OK
+    public enum Status {
+        ALERT("ALERT"),
+        WARN("WARN"),
+        OK("OK");
+
+        private String str;
+
+        Status(String str) {
+            this.str = str;
+        }
+
+        public String getStr() {
+            return str;
+        }
     }
 
     public List<Mesurement> getMesurements() {
