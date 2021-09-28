@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document
@@ -17,6 +18,9 @@ public class Sensor {
 
     @DBRef
     private List<Mesurement> mesurements;
+
+    @DBRef
+    private List<Alert> alerts;
 
     public Sensor(String id) {
         this.id = id;
@@ -74,6 +78,15 @@ public class Sensor {
 
     public void setMesurements(List<Mesurement> mesurements) {
         this.mesurements = mesurements;
+    }
+
+    public void addAlerts(Alert alert){
+        if(this.alerts!=null){
+            this.alerts.add(alert);
+        } else {
+            this.alerts = new ArrayList<>();
+            this.alerts.add(alert);
+        }
     }
 
 }

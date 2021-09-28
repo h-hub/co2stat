@@ -2,10 +2,8 @@ package codes.harsha.co2stat.application.service;
 
 import codes.harsha.co2stat.application.port.in.CollectMesurement;
 import codes.harsha.co2stat.application.port.in.CollectMetrics;
-import codes.harsha.co2stat.application.port.out.MesurementCreatePort;
-import codes.harsha.co2stat.application.port.out.MesurementQueryPort;
-import codes.harsha.co2stat.application.port.out.SensorCreatePort;
-import codes.harsha.co2stat.application.port.out.SensorQueryPort;
+import codes.harsha.co2stat.application.port.out.*;
+import codes.harsha.co2stat.domain.Alert;
 import codes.harsha.co2stat.domain.Mesurement;
 import codes.harsha.co2stat.domain.Sensor;
 import org.springframework.stereotype.Service;
@@ -27,14 +25,18 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
 
     private final SensorCreatePort sensorCreatePort;
 
+    private final AlertCreatePort alertCreatePort;
+
     public MesurementService(SensorQueryPort sensorQueryPort,
                              MesurementCreatePort mesurementCreatePort,
                              MesurementQueryPort mesurementQueryPort,
-                             SensorCreatePort sensorCreatePort) {
+                             SensorCreatePort sensorCreatePort,
+                             AlertCreatePort alertCreatePort) {
         this.sensorQueryPort = sensorQueryPort;
         this.mesurementCreatePort = mesurementCreatePort;
         this.mesurementQueryPort = mesurementQueryPort;
         this.sensorCreatePort = sensorCreatePort;
+        this.alertCreatePort = alertCreatePort;
     }
 
     @Override
@@ -52,6 +54,16 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
         List<Mesurement> lastThree = mesurementQueryPort.findLastMesurements(sensorId, 3);
 
         sensor.setStatus(lastThree);
+
+        if(sensor.getStatus().equals(Sensor.Status.ALERT)){
+            int[] mesurements = new int[3];
+            mesurements[0] = (int) lastThree.get(0).getCo2();
+            mesurements[1] = (int) lastThree.get(1).getCo2();
+            mesurements[2] = (int) lastThree.get(2).getCo2();
+            Alert alert = new Alert(sensor, lastThree.get(2).getDateTime(), lastThree.get(0).getDateTime(), mesurements);
+            alertCreatePort.save(alert);
+            sensor.addAlerts(alert);
+        }
         sensorCreatePort.save(sensor);
 
     }
