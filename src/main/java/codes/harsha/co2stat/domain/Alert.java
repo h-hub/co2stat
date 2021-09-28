@@ -27,4 +27,16 @@ public class Alert {
         this.endTime = endTime;
         this.mesurements = mesurements;
     }
+
+    public ZonedDateTime getStartTime() {
+        return startTime;
+    }
+
+    public ZonedDateTime getEndTime() {
+        return endTime;
+    }
+
+    public int[] getMesurements() {
+        return mesurements;
+    }
 }
