@@ -7,6 +7,7 @@ import codes.harsha.co2stat.domain.Alert;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +54,8 @@ public class SensorController {
         for (Alert alert: alerts
              ) {
             AlertsResponse alertsResponse = new AlertsResponse();
-            alertsResponse.startTime = alert.getStartTime().toString();
-            alertsResponse.endTime = alert.getEndTime().toString();
+            alertsResponse.startTime = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX").format(alert.getStartTime());
+            alertsResponse.endTime = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX").format(alert.getEndTime());
             alertsResponse.mesurement1 = alert.getMesurements()[0];
             alertsResponse.mesurement2 = alert.getMesurements()[1];
             alertsResponse.mesurement3 = alert.getMesurements()[2];
