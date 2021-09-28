@@ -58,7 +58,10 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
 
     @Override
     public double getMaxLast30Days(String sensorId) {
-        return 0;
+        ZonedDateTime today = ZonedDateTime.now();
+        ZonedDateTime thirtyDaysAgo = today.minusDays(30);
+        double max = mesurementQueryPort.getMax(thirtyDaysAgo, today, sensorId);
+        return max;
     }
 
     @Override

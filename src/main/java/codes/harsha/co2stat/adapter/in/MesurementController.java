@@ -32,10 +32,11 @@ public class MesurementController {
     public  Metrics getMetrics(@PathVariable String uuid){
 
         double avgLast30Days = collectMetrics.getAvgLast30Days(uuid);
+        double maxLast30Days = collectMetrics.getMaxLast30Days(uuid);
 
         Metrics metrics = new Metrics();
         metrics.avgLast30Days = avgLast30Days;
-        metrics.maxLast30Days = 0;
+        metrics.maxLast30Days = maxLast30Days;
 
         return metrics;
     }

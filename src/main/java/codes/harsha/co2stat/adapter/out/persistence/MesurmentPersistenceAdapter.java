@@ -60,6 +60,22 @@ public class MesurmentPersistenceAdapter implements MesurementCreatePort, Mesure
 
     }
 
+    @Override
+    public double getMax(ZonedDateTime from, ZonedDateTime to, String sensorId) {
+        List<AggregationOperation> aggregationOperations = extracted(from, to, sensorId);
+
+        GroupOperation groupOperation = Aggregation.group("_id=null").max("co2").as("max");
+        aggregationOperations.add(groupOperation);
+
+        Aggregation aggregation
+                = newAggregation(aggregationOperations);
+
+        AggregationResults<MaxData> output
+                = mongoTemplate.aggregate(aggregation, "mesurement", MaxData.class);
+
+        return output.getMappedResults().get(0).max;
+    }
+
     private List<AggregationOperation> extracted(ZonedDateTime from, ZonedDateTime to, String sensorId) {
 
         ObjectOperators.ObjectToArray.valueOfToArray("sensor");
@@ -96,6 +112,16 @@ public class MesurmentPersistenceAdapter implements MesurementCreatePort, Mesure
         aggregationOperations.add(matchOperation);
 
         return aggregationOperations;
+    }
+
+    class AverageData {
+        public String _id;
+        public Double avg;
+    }
+
+    class MaxData {
+        public String _id;
+        public Double max;
     }
 
 }

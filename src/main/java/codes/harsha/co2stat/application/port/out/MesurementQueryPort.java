@@ -9,4 +9,6 @@ public interface MesurementQueryPort {
     List<Mesurement> findLastMesurements(String sensorId, int mesurementCount);
 
     double getAverage(ZonedDateTime from, ZonedDateTime to, String sensorId);
+
+    double getMax(ZonedDateTime from, ZonedDateTime to, String sensorId);
 }
