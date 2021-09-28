@@ -1,6 +1,7 @@
 package codes.harsha.co2stat.adapter.in;
 
 import codes.harsha.co2stat.application.port.in.CollectMesurement;
+import codes.harsha.co2stat.application.port.in.CollectMetrics;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,10 @@ public class MesurementController {
 
     private final CollectMesurement collectMesurement;
 
-    public MesurementController(CollectMesurement collectMesurement) {
+    private final CollectMetrics collectMetrics;
+
+    public MesurementController(CollectMesurement collectMesurement, CollectMetrics collectMetrics) {
+        this.collectMetrics = collectMetrics;
         this.collectMesurement = collectMesurement;
     }
 
@@ -21,6 +25,24 @@ public class MesurementController {
     public  void create(@RequestBody @Valid MesurementPayload mesurementPayload, @PathVariable String uuid){
 
         collectMesurement.collect(uuid, mesurementPayload.co2, mesurementPayload.time);
+    }
+
+    @RequestMapping(value = "/{uuid}/metrics", method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseStatus(code = HttpStatus.OK)
+    public  Metrics getMetrics(@PathVariable String uuid){
+
+        double avgLast30Days = collectMetrics.getAvgLast30Days(uuid);
+
+        Metrics metrics = new Metrics();
+        metrics.avgLast30Days = avgLast30Days;
+        metrics.maxLast30Days = 0;
+
+        return metrics;
+    }
+
+    class Metrics{
+        public double maxLast30Days;
+        public double avgLast30Days;
     }
 
 }

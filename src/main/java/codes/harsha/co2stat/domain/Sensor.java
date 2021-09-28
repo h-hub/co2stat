@@ -78,4 +78,7 @@ public class Sensor {
 
 }
 
+//{"_id":{"$oid":"615020333d318071c890dacd"},
+//        "co2":2000,"dateTime":{"$date":"2019-02-01T18:55:47.000Z"},"sensor":{"$ref":"sensor","$id":"zxzxzxzxzxzxzxzx"},"_class":"codes.harsha.co2stat.domain.Mesurement"}
+
 

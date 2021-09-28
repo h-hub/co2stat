@@ -1,6 +1,7 @@
 package codes.harsha.co2stat.application.service;
 
 import codes.harsha.co2stat.application.port.in.CollectMesurement;
+import codes.harsha.co2stat.application.port.in.CollectMetrics;
 import codes.harsha.co2stat.application.port.out.MesurementCreatePort;
 import codes.harsha.co2stat.application.port.out.MesurementQueryPort;
 import codes.harsha.co2stat.application.port.out.SensorCreatePort;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class MesurementService implements CollectMesurement {
+public class MesurementService implements CollectMesurement, CollectMetrics {
 
     private final SensorQueryPort sensorQueryPort;
 
@@ -53,5 +54,18 @@ public class MesurementService implements CollectMesurement {
         sensor.setStatus(lastThree);
         sensorCreatePort.save(sensor);
 
+    }
+
+    @Override
+    public double getMaxLast30Days(String sensorId) {
+        return 0;
+    }
+
+    @Override
+    public double getAvgLast30Days(String sensorId) {
+        ZonedDateTime today = ZonedDateTime.now();
+        ZonedDateTime thirtyDaysAgo = today.minusDays(30);
+        double average = mesurementQueryPort.getAverage(thirtyDaysAgo, today, sensorId);
+        return average;
     }
 }
