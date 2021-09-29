@@ -33,8 +33,8 @@ public class MesurementController {
     @ResponseStatus(code = HttpStatus.OK)
     public  Metrics getMetrics(@PathVariable String uuid){
 
-        double avgLast30Days = collectMetrics.getAvgLast30Days(uuid);
-        double maxLast30Days = collectMetrics.getMaxLast30Days(uuid);
+        int avgLast30Days = collectMetrics.getAvgLast30Days(uuid);
+        int maxLast30Days = collectMetrics.getMaxLast30Days(uuid);
 
         Metrics metrics = new Metrics();
         metrics.avgLast30Days = avgLast30Days;
@@ -44,8 +44,8 @@ public class MesurementController {
     }
 
     class Metrics{
-        public double maxLast30Days;
-        public double avgLast30Days;
+        public int maxLast30Days;
+        public int avgLast30Days;
     }
 
 }

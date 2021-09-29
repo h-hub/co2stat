@@ -43,7 +43,7 @@ public class MesurmentPersistenceAdapter implements MesurementCreatePort, Mesure
     }
     
     @Override
-    public double getAverage(ZonedDateTime from, ZonedDateTime to, String sensorId){
+    public int getAverage(ZonedDateTime from, ZonedDateTime to, String sensorId){
 
         List<AggregationOperation> aggregationOperations = extracted(from, to, sensorId);
 
@@ -62,7 +62,7 @@ public class MesurmentPersistenceAdapter implements MesurementCreatePort, Mesure
     }
 
     @Override
-    public double getMax(ZonedDateTime from, ZonedDateTime to, String sensorId) {
+    public int getMax(ZonedDateTime from, ZonedDateTime to, String sensorId) {
         List<AggregationOperation> aggregationOperations = extracted(from, to, sensorId);
 
         GroupOperation groupOperation = Aggregation.group("_id=null").max("co2").as("max");
@@ -117,12 +117,12 @@ public class MesurmentPersistenceAdapter implements MesurementCreatePort, Mesure
 
     class AverageData {
         public String _id;
-        public Double avg;
+        public Integer avg;
     }
 
     class MaxData {
         public String _id;
-        public Double max;
+        public Integer max;
     }
 
 }

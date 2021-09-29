@@ -8,7 +8,7 @@ import java.util.List;
 public interface MesurementQueryPort {
     List<Mesurement> findLastMesurements(String sensorId, int mesurementCount);
 
-    double getAverage(ZonedDateTime from, ZonedDateTime to, String sensorId);
+    int getAverage(ZonedDateTime from, ZonedDateTime to, String sensorId);
 
-    double getMax(ZonedDateTime from, ZonedDateTime to, String sensorId);
+    int getMax(ZonedDateTime from, ZonedDateTime to, String sensorId);
 }

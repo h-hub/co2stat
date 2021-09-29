@@ -21,7 +21,7 @@ public class Mesurement {
         this.sensor = sensor;
     }
 
-    public double getCo2() {
+    public int getCo2() {
         return co2;
     }
 

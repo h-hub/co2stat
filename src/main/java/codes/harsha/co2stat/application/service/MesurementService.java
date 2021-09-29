@@ -59,9 +59,9 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
 
             if(sensor.isAlert(lastThree)){
                 int[] mesurements = new int[3];
-                mesurements[0] = (int) lastThree.get(0).getCo2();
-                mesurements[1] = (int) lastThree.get(1).getCo2();
-                mesurements[2] = (int) lastThree.get(2).getCo2();
+                mesurements[0] = lastThree.get(0).getCo2();
+                mesurements[1] = lastThree.get(1).getCo2();
+                mesurements[2] = lastThree.get(2).getCo2();
                 Alert alert = new Alert(sensor, lastThree.get(2).getDateTime(), lastThree.get(0).getDateTime(), mesurements);
                 alertCreatePort.save(alert);
                 sensor.addAlerts(alert);
@@ -73,24 +73,24 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
     }
 
     @Override
-    public double getMaxLast30Days(String sensorId) {
+    public int getMaxLast30Days(String sensorId) {
 
         Assert.notNull(sensorId, "Sensor ID is required");
 
         ZonedDateTime today = ZonedDateTime.now();
         ZonedDateTime thirtyDaysAgo = today.minusDays(30);
-        double max = mesurementQueryPort.getMax(thirtyDaysAgo, today, sensorId);
+        int max = mesurementQueryPort.getMax(thirtyDaysAgo, today, sensorId);
         return max;
     }
 
     @Override
-    public double getAvgLast30Days(String sensorId) {
+    public int getAvgLast30Days(String sensorId) {
 
         Assert.notNull(sensorId, "Sensor ID is required");
 
         ZonedDateTime today = ZonedDateTime.now();
         ZonedDateTime thirtyDaysAgo = today.minusDays(30);
-        double average = mesurementQueryPort.getAverage(thirtyDaysAgo, today, sensorId);
+        int average = mesurementQueryPort.getAverage(thirtyDaysAgo, today, sensorId);
         return average;
     }
 }
