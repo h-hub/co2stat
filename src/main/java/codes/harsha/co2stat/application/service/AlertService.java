@@ -3,6 +3,7 @@ package codes.harsha.co2stat.application.service;
 import codes.harsha.co2stat.application.port.in.ListAlerts;
 import codes.harsha.co2stat.application.port.out.AlertQueryPort;
 import codes.harsha.co2stat.domain.Alert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -15,6 +16,7 @@ public class AlertService implements ListAlerts {
 
     private final AlertQueryPort alertQueryPort;
 
+    @Autowired
     public AlertService(AlertQueryPort alertQueryPort) {
         this.alertQueryPort = alertQueryPort;
     }

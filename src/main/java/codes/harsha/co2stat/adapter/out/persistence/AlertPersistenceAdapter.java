@@ -3,6 +3,7 @@ package codes.harsha.co2stat.adapter.out.persistence;
 import codes.harsha.co2stat.application.port.out.AlertCreatePort;
 import codes.harsha.co2stat.application.port.out.AlertQueryPort;
 import codes.harsha.co2stat.domain.Alert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class AlertPersistenceAdapter implements AlertCreatePort, AlertQueryPort 
 
     private final AlertRepositoryMongo alertRepositoryMongo;
 
+    @Autowired
     public AlertPersistenceAdapter(AlertRepositoryMongo alertRepositoryMongo) {
         this.alertRepositoryMongo = alertRepositoryMongo;
     }
