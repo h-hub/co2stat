@@ -42,8 +42,8 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
     @Override
     public void collect(String sensorId, int co2Level, String dateTime) {
 
-        Assert.notNull(sensorId, "");
-        Assert.notNull(dateTime, "");
+        Assert.notNull(sensorId, "Sensor ID is required");
+        Assert.notNull(dateTime, "DateTime is Required");
 
         Sensor sensor = sensorQueryPort.find(sensorId);
 
@@ -53,23 +53,30 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
 
         List<Mesurement> lastThree = mesurementQueryPort.findLastMesurements(sensorId, 3);
 
-        sensor.setStatus(lastThree);
+        if(lastThree.size()==3){
 
-        if(sensor.getStatus().equals(Sensor.Status.ALERT)){
-            int[] mesurements = new int[3];
-            mesurements[0] = (int) lastThree.get(0).getCo2();
-            mesurements[1] = (int) lastThree.get(1).getCo2();
-            mesurements[2] = (int) lastThree.get(2).getCo2();
-            Alert alert = new Alert(sensor, lastThree.get(2).getDateTime(), lastThree.get(0).getDateTime(), mesurements);
-            alertCreatePort.save(alert);
-            sensor.addAlerts(alert);
+            sensor.setStatus(lastThree);
+
+            if(sensor.isAlert(lastThree)){
+                int[] mesurements = new int[3];
+                mesurements[0] = (int) lastThree.get(0).getCo2();
+                mesurements[1] = (int) lastThree.get(1).getCo2();
+                mesurements[2] = (int) lastThree.get(2).getCo2();
+                Alert alert = new Alert(sensor, lastThree.get(2).getDateTime(), lastThree.get(0).getDateTime(), mesurements);
+                alertCreatePort.save(alert);
+                sensor.addAlerts(alert);
+            }
         }
+
         sensorCreatePort.save(sensor);
 
     }
 
     @Override
     public double getMaxLast30Days(String sensorId) {
+
+        Assert.notNull(sensorId, "Sensor ID is required");
+
         ZonedDateTime today = ZonedDateTime.now();
         ZonedDateTime thirtyDaysAgo = today.minusDays(30);
         double max = mesurementQueryPort.getMax(thirtyDaysAgo, today, sensorId);
@@ -78,6 +85,9 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
 
     @Override
     public double getAvgLast30Days(String sensorId) {
+
+        Assert.notNull(sensorId, "Sensor ID is required");
+
         ZonedDateTime today = ZonedDateTime.now();
         ZonedDateTime thirtyDaysAgo = today.minusDays(30);
         double average = mesurementQueryPort.getAverage(thirtyDaysAgo, today, sensorId);

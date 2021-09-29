@@ -3,6 +3,7 @@ package codes.harsha.co2stat.adapter.out.persistence;
 import codes.harsha.co2stat.application.port.out.SensorCreatePort;
 import codes.harsha.co2stat.application.port.out.SensorQueryPort;
 import codes.harsha.co2stat.domain.Sensor;
+import codes.harsha.co2stat.exception.Co2StatException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,6 +22,6 @@ public class SensorPersistenceAdapter implements SensorCreatePort, SensorQueryPo
 
     @Override
     public Sensor find(String id) {
-        return sensorRepositoryMongo.findById(id).orElseThrow();
+        return sensorRepositoryMongo.findById(id).orElseThrow(() -> new Co2StatException("Sensor Not Found"));
     }
 }

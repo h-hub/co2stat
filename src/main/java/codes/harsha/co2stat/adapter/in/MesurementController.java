@@ -3,12 +3,14 @@ package codes.harsha.co2stat.adapter.in;
 import codes.harsha.co2stat.application.port.in.CollectMesurement;
 import codes.harsha.co2stat.application.port.in.CollectMetrics;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/v1/sensors")
+@Validated
 public class MesurementController {
 
     private final CollectMesurement collectMesurement;

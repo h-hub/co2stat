@@ -56,6 +56,12 @@ public class Sensor {
         }
     }
 
+    public boolean isAlert(List<Mesurement> lastMesurements) {
+        Assert.isTrue(lastMesurements.size()==3, "Invalid list size");
+        boolean isOver200 = lastMesurements.stream().allMatch( mesurement -> mesurement.getCo2() > 2000 );
+        return isOver200;
+    }
+
     public enum Status {
         ALERT("ALERT"),
         WARN("WARN"),

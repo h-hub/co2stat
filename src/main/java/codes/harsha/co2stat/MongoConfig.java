@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
 import org.springframework.data.convert.WritingConverter;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 
 import java.time.ZoneId;
@@ -47,5 +49,10 @@ public class MongoConfig {
         public Date convert(ZonedDateTime zonedDateTime) {
             return Date.from(zonedDateTime.toInstant());
         }
+    }
+
+    @Bean
+    MongoTransactionManager transactionManager(MongoDatabaseFactory dbFactory) {
+        return new MongoTransactionManager(dbFactory);
     }
 }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/api/v1/sensors")
 public class SensorController {
 
     private final CreateSensor createSensor;
@@ -26,13 +27,13 @@ public class SensorController {
         this.listAlerts = listAlerts;
     }
 
-    @RequestMapping(value = "/sensor/{uuid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
     @ResponseStatus(code = HttpStatus.OK)
     public  void create(@PathVariable String uuid){
         createSensor.create(uuid);
     }
 
-    @RequestMapping(value = "/api/v1/sensors/{uuid}", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(code = HttpStatus.OK)
     public  SensorResponse getStatus(@PathVariable String uuid){
         SensorResponse sensorResponse = new SensorResponse();
@@ -44,7 +45,7 @@ public class SensorController {
         public String status;
     }
 
-    @RequestMapping(value = "/api/v1/sensors/{uuid}/alerts", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/{uuid}/alerts", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(code = HttpStatus.OK)
     public List<AlertsResponse> getAlerts(@PathVariable String uuid){
 

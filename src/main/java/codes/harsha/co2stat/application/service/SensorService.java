@@ -24,13 +24,14 @@ public class SensorService implements CreateSensor, GetSensorStatus {
 
     @Override
     public void create(String id) {
-        Assert.notNull(id, "Sensor id cannot be null");
+        Assert.notNull(id, "Sensor ID is required");
         Sensor sensor = new Sensor(id);
         sensorCreatePort.save(sensor);
     }
 
     @Override
     public String getStatus(String sensorId) {
+        Assert.notNull(sensorId, "Sensor ID is required");
         Sensor.Status status = sensorQueryPort.find(sensorId).getStatus();
         if(status==null){
             return "";
