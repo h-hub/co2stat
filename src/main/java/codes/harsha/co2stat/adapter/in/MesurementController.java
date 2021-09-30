@@ -43,7 +43,7 @@ public class MesurementController {
         return metrics;
     }
 
-    class Metrics{
+    static class Metrics{
         public int maxLast30Days;
         public int avgLast30Days;
     }
