@@ -41,7 +41,7 @@ public class SensorController {
         return sensorResponse;
     }
 
-    class SensorResponse{
+    static class SensorResponse{
         public String status;
     }
 
