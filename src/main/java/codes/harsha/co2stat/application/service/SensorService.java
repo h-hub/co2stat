@@ -5,6 +5,7 @@ import codes.harsha.co2stat.application.port.in.GetSensorStatus;
 import codes.harsha.co2stat.application.port.out.SensorCreatePort;
 import codes.harsha.co2stat.application.port.out.SensorQueryPort;
 import codes.harsha.co2stat.domain.Sensor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,6 +18,7 @@ public class SensorService implements CreateSensor, GetSensorStatus {
 
     private final SensorQueryPort sensorQueryPort;
 
+    @Autowired
     public SensorService(SensorCreatePort sensorCreatePort, SensorQueryPort sensorQueryPort) {
         this.sensorCreatePort = sensorCreatePort;
         this.sensorQueryPort = sensorQueryPort;
