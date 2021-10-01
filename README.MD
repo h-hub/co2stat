@@ -31,7 +31,7 @@ All the input values to the program are validated in the controller layer. Excep
    1. Database name should be ```co2stat```
    2. Create three collections. ```sensor```, ```alert``` and ```mesurement```
 ![img.png](mongodb.png)
-2. Execute "mvn install" from the project root folder
+2. Execute ```mvn install``` from the project root folder
 3. Go to target folder and execute ```java -jar co2stat-0.0.1-SNAPSHOT.jar```
 4. Visit ```http://localhost:8081/status``` to check the API status
 
