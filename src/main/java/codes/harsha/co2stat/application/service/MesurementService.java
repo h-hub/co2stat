@@ -77,9 +77,11 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
 
         Assert.notNull(sensorId, "Sensor ID is required");
 
+        Sensor sensor = sensorQueryPort.find(sensorId);
+
         ZonedDateTime today = ZonedDateTime.now();
         ZonedDateTime thirtyDaysAgo = today.minusDays(30);
-        int max = mesurementQueryPort.getMax(thirtyDaysAgo, today, sensorId);
+        int max = mesurementQueryPort.getMax(thirtyDaysAgo, today, sensor.getId());
         return max;
     }
 
@@ -88,9 +90,11 @@ public class MesurementService implements CollectMesurement, CollectMetrics {
 
         Assert.notNull(sensorId, "Sensor ID is required");
 
+        Sensor sensor = sensorQueryPort.find(sensorId);
+
         ZonedDateTime today = ZonedDateTime.now();
         ZonedDateTime thirtyDaysAgo = today.minusDays(30);
-        int average = mesurementQueryPort.getAverage(thirtyDaysAgo, today, sensorId);
+        int average = mesurementQueryPort.getAverage(thirtyDaysAgo, today, sensor.getId());
         return average;
     }
 }

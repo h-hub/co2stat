@@ -56,7 +56,9 @@ public class MesurmentPersistenceAdapter implements MesurementCreatePort, Mesure
         AggregationResults<AverageData> output
                 = mongoTemplate.aggregate(aggregation, "mesurement", AverageData.class);
 
-        //handle this when there is no data
+        if(output.getMappedResults().size()==0){
+            return 0;
+        }
         return output.getMappedResults().get(0).avg;
 
     }
@@ -73,6 +75,10 @@ public class MesurmentPersistenceAdapter implements MesurementCreatePort, Mesure
 
         AggregationResults<MaxData> output
                 = mongoTemplate.aggregate(aggregation, "mesurement", MaxData.class);
+
+        if(output.getMappedResults().size()==0){
+            return 0;
+        }
 
         return output.getMappedResults().get(0).max;
     }
