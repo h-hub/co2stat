@@ -30,6 +30,13 @@ All the input values to the program are validated in the controller layer. Excep
 1. Create MongoDB database.
    1. Database name should be ```co2stat```
    2. Create three collections. ```sensor```, ```alert``` and ```mesurement```
+![img.png](mongodb.png)
 2. Execute "mvn install" from the project root folder
 3. Go to target folder and execute ```java -jar co2stat-0.0.1-SNAPSHOT.jar```
 4. Visit ```http://localhost:8081/status``` to check the API status
+
+## API Documentation
+The API is documented using Open API 3, and it is included in the codebase. Check the file names ApiDocument.json. 
+Use Swagger UI or IntelliJ IDEA plugin to open it.
+
+Email: harsha.kj89@gmail for support
